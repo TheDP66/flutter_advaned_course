@@ -1,3 +1,5 @@
+[here](https://youtu.be/KbKRKG0gKkc?list=PLUvfjeBvMXmX0Z9MoKm5cZMAfGcoJdbXi)
+
 ## Setup project
 
 - Create API config `lib\core\utils\constants.dart`
@@ -28,3 +30,8 @@
 ## 6. Create new use case
 
 `lib\features\feature_weather\domain\use_cases\get_current_weather_usecase.dart`
+
+## 7. Create presentation bloc
+
+- Go to `lib\features\feature_weather\presentation\bloc\`
+- Create these 3 (three) files `home_bloc.dart`, `home_event.dart`, and `home_state.dart`
