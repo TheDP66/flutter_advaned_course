@@ -1,16 +1,28 @@
-# flutter_advaned_course
+## Create API config
 
-A new Flutter project.
+`lib\core\utils\constants.dart`
 
-## Getting Started
+## Create data_state
 
-This project is a starting point for a Flutter application.
+`lib\core\resourecs\data_state.dart`
 
-A few resources to get you started if this is your first Flutter project:
+## 1. Create new provider
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+`lib\features\feature_weather\data\data_source\remote\api_provider.dart`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 2. Create new model
+
+- Go to `https:\\javiercbk.github.io\json_to_dart\` to convert json response to dart
+- Paste to `lib\features\feature_weather\data\models\CurrentCityModel.dart`
+
+## 3. Create new entity
+
+`lib\features\feature_weather\domain\entites\CurrentCityEntity.dart`
+
+## 4. Create new repository
+
+`lib\features\feature_weather\domain\repositories\weather_repository.dart`
+
+## 5. Create new repository implement
+
+`lib\features\feature_weather\data\repositories\weather_repository_impl.dart`
