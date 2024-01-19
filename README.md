@@ -1,10 +1,8 @@
-## Create API config
+## Setup project
 
-`lib\core\utils\constants.dart`
-
-## Create data_state
-
-`lib\core\resourecs\data_state.dart`
+- Create API config `lib\core\utils\constants.dart`
+- Create data_state `lib\core\resourecs\data_state.dart`
+- Create use_case `lib\core\usecase\use_case.dart`
 
 ## 1. Create new provider
 
@@ -26,3 +24,7 @@
 ## 5. Create new repository implement
 
 `lib\features\feature_weather\data\repositories\weather_repository_impl.dart`
+
+## 6. Create new use case
+
+`lib\features\feature_weather\domain\use_cases\get_current_weather_usecase.dart`
