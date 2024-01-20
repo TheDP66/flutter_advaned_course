@@ -20,7 +20,7 @@ class AppBackground {
           image: AssetImage(
         'assets/images/icons8-sun-96.png',
       ));
-    } else if (description == "few clouds") {
+    } else if (description == "haze") {
       return const Image(
           image: AssetImage('assets/images/icons8-partly-cloudy-day-80.png'));
     } else if (description.contains("clouds")) {

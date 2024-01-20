@@ -1,4 +1,5 @@
-[here](https://youtu.be/KbKRKG0gKkc?list=PLUvfjeBvMXmX0Z9MoKm5cZMAfGcoJdbXi)
+[Video resume here](https://youtu.be/aLwdQZ0UxF0?list=PLUvfjeBvMXmX0Z9MoKm5cZMAfGcoJdbXi&t=737)<br />
+[Playlist here](https://www.youtube.com/playlist?list=PLUvfjeBvMXmX0Z9MoKm5cZMAfGcoJdbXi)
 
 ## Setup project
 
@@ -49,3 +50,5 @@
 - listen to BlocBuilder api call, see in `main_wrapper.dart` body
 
 ## 10. Create screen
+
+`lib\features\feature_weather\presentation\screens\home_screen.dart`

@@ -17,6 +17,8 @@ class WeatherRepositoryImpl extends WeatherRepository {
     try {
       Response response = await apiProvider.callCurrentWeather(cityName);
 
+      print(response.data);
+
       if (response.statusCode == 200) {
         CurrentCityEntity currentCityEntity = CurrentCityModel.fromJson(
           response.data,
@@ -24,10 +26,10 @@ class WeatherRepositoryImpl extends WeatherRepository {
 
         return DataSuccess(currentCityEntity);
       } else {
-        return const DataFailed("Something went wrong. try again...");
+        return DataFailed(response.statusMessage.toString());
       }
     } catch (e) {
-      return const DataFailed("Something went wrong. try again...");
+      return DataFailed(e.toString());
     }
   }
 }
