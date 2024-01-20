@@ -35,3 +35,9 @@
 
 - Go to `lib\features\feature_weather\presentation\bloc\`
 - Create these 3 (three) files `home_bloc.dart`, `home_event.dart`, and `home_state.dart`
+- Create fetch status file `cw_status.dart` (cw = current weather)
+
+## 8. Create locator / injection
+
+- Create `lib\locator.dart`
+- Called `await setup();` in `lib\main.dart`
