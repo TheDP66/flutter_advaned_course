@@ -41,3 +41,9 @@
 
 - Create `lib\locator.dart`
 - Called `await setup();` in `lib\main.dart`
+
+## 9. Call an event
+
+- change `lib\core\widgets\main_wrapper.dart` to `statefull` widget
+- write `BlocProvider.of<HomeBloc>(context).add(LoadCwEvent("Tehran"));` to call event
+- listen to BlocBuilder api call, see in `main_wrapper.dart` body

@@ -6,7 +6,7 @@ class ApiProvider {
 
   var apiKey = Constants.apiKeys1;
 
-  // current weather api call
+  /// current weather api call
   Future<dynamic> callCurrentWeather(cityName) async {
     var response = await _dio.get(
       "${Constants.baseUrl}/data/2.5/weather",
@@ -16,8 +16,6 @@ class ApiProvider {
         'units': 'metric',
       },
     );
-
-    print(response.data);
 
     return response;
   }

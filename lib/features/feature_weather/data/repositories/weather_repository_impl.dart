@@ -24,10 +24,10 @@ class WeatherRepositoryImpl extends WeatherRepository {
 
         return DataSuccess(currentCityEntity);
       } else {
-        return const DataFailed("Soemthing went wrong. try again...");
+        return const DataFailed("Something went wrong. try again...");
       }
     } catch (e) {
-      return const DataFailed("Soemthing went wrong. try again...");
+      return const DataFailed("Something went wrong. try again...");
     }
   }
 }
