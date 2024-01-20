@@ -47,3 +47,5 @@
 - change `lib\core\widgets\main_wrapper.dart` to `statefull` widget
 - write `BlocProvider.of<HomeBloc>(context).add(LoadCwEvent("Tehran"));` to call event
 - listen to BlocBuilder api call, see in `main_wrapper.dart` body
+
+## 10. Create screen

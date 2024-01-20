@@ -25,7 +25,7 @@ void main() async {
           //   create: (_) => locator<HomeBloc>(),
           // ),
         ],
-        child: const MainWrapper(),
+        child: MainWrapper(),
       ),
     ),
   );
