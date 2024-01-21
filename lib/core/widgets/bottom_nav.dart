@@ -7,19 +7,17 @@ class BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var primaryColor = Theme.of(context).primaryColor;
-    TextTheme textTheme = Theme.of(context).textTheme;
-
     return BottomAppBar(
       shape: const CircularNotchedRectangle(),
       notchMargin: 5,
-      color: primaryColor,
+      height: 70,
+      color: Colors.black54,
       child: SizedBox(
-        height: 63,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(
+              color: Colors.white70,
               onPressed: () {
                 controller.animateToPage(
                   0,
@@ -33,6 +31,7 @@ class BottomNav extends StatelessWidget {
             ),
             const SizedBox(),
             IconButton(
+              color: Colors.white70,
               onPressed: () {
                 controller.animateToPage(
                   1,

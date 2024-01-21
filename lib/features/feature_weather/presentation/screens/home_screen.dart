@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_advaned_course/core/params/ForecastParams.dart';
 import 'package:flutter_advaned_course/core/widgets/app_background.dart';
 import 'package:flutter_advaned_course/core/widgets/dot_loading_widget.dart';
+import 'package:flutter_advaned_course/features/feature_weather/data/models/forecast_day_model.dart';
 import 'package:flutter_advaned_course/features/feature_weather/domain/entities/current_city_entity.dart';
+import 'package:flutter_advaned_course/features/feature_weather/domain/entities/forecast_day_entity.dart';
 import 'package:flutter_advaned_course/features/feature_weather/presentation/bloc/cw_status.dart';
+import 'package:flutter_advaned_course/features/feature_weather/presentation/bloc/fw_status.dart';
 import 'package:flutter_advaned_course/features/feature_weather/presentation/bloc/home_bloc.dart';
+import 'package:flutter_advaned_course/features/feature_weather/presentation/widgets/days_weather_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -48,6 +53,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 final CwCompleted cwCompleted = state.cwStatus as CwCompleted;
                 final CurrentCityEntity currentCityEntity =
                     cwCompleted.currentCityEntity;
+
+                final ForecastParams forecastParams = ForecastParams(
+                  currentCityEntity.coord!.lat!,
+                  currentCityEntity.coord!.lon!,
+                );
+
+                BlocProvider.of<HomeBloc>(context).add(
+                  LoadFwEvent(forecastParams),
+                );
 
                 return Expanded(
                   child: ListView(
@@ -209,45 +223,88 @@ class _HomeScreenState extends State<HomeScreen> {
                             curve: Curves.bounceOut,
                           ),
                         ),
-                      )
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 30,
+                        ),
+                        child: Container(
+                          color: Colors.white24,
+                          height: 2,
+                          width: double.infinity,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 15,
+                        ),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 100,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10,
+                            ),
+                            child: Center(
+                              child: BlocBuilder<HomeBloc, HomeState>(
+                                builder: (BuildContext context, state) {
+                                  if (state.fwStatus is FwLoading) {
+                                    return const DotLoadingWidget();
+                                  }
+
+                                  if (state.fwStatus is FwCompleted) {
+                                    final FwCompleted fwCompleted =
+                                        state.fwStatus as FwCompleted;
+                                    final ForecastDayEntity forecastDayEntity =
+                                        fwCompleted.forecastDayEntity;
+                                    final List<Daily> mainDaily =
+                                        forecastDayEntity.daily!;
+
+                                    return ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: 8,
+                                      itemBuilder: (
+                                        BuildContext context,
+                                        int index,
+                                      ) {
+                                        return DaysWeatherView(
+                                          daily: mainDaily[index],
+                                        );
+                                      },
+                                    );
+                                  }
+
+                                  if (state.fwStatus is FwError) {}
+                                  final FwError fwError =
+                                      state.fwStatus as FwError;
+
+                                  return Center(
+                                    child: Text(
+                                      fwError.message,
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 15,
+                        ),
+                        child: Container(
+                          color: Colors.white24,
+                          height: 2,
+                          width: double.infinity,
+                        ),
+                      ),
                     ],
                   ),
                 );
-
-                // return Center(
-                //   child: ListView(
-                //     children: [
-                //       Column(
-                //         children: [
-                //           Padding(
-                //             padding: const EdgeInsets.only(
-                //               top: 50,
-                //             ),
-                //             child: Text(
-                //               currentCityEntity.name!,
-                //               style: const TextStyle(
-                //                 fontSize: 30,
-                //                 color: Colors.white,
-                //               ),
-                //             ),
-                //           ),
-                //           Padding(
-                //             padding: const EdgeInsets.only(
-                //               top: 50,
-                //             ),
-                //             child: Text(
-                //               currentCityEntity.name!,
-                //               style: const TextStyle(
-                //                 fontSize: 30,
-                //                 color: Colors.white,
-                //               ),
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ],
-                //   ),
-                // );
               }
 
               if (state.cwStatus is CwError) {

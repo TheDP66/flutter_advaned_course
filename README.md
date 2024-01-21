@@ -1,4 +1,4 @@
-[Video resume here](https://youtu.be/aLwdQZ0UxF0?list=PLUvfjeBvMXmX0Z9MoKm5cZMAfGcoJdbXi&t=737)<br />
+[Video resume here](https://youtu.be/qkTxEG_Go34?list=PLUvfjeBvMXmX0Z9MoKm5cZMAfGcoJdbXi&t=430)<br />
 [Playlist here](https://www.youtube.com/playlist?list=PLUvfjeBvMXmX0Z9MoKm5cZMAfGcoJdbXi)
 
 ## Setup project
@@ -15,10 +15,12 @@
 
 - Go to `https:\\javiercbk.github.io\json_to_dart\` to convert json response to dart
 - Paste to `lib\features\feature_weather\data\models\CurrentCityModel.dart`
+- Cut two first section
 
 ## 3. Create new entity
 
-`lib\features\feature_weather\domain\entites\CurrentCityEntity.dart`
+- Create file `lib\features\feature_weather\domain\entites\CurrentCityEntity.dart`
+- Paste and `extend Equatable`
 
 ## 4. Create new repository
 
@@ -35,7 +37,7 @@
 ## 7. Create presentation bloc
 
 - Go to `lib\features\feature_weather\presentation\bloc\`
-- Create these 3 (three) files `home_bloc.dart`, `home_event.dart`, and `home_state.dart`
+- And create these 3 (three) files `home_bloc.dart`, `home_event.dart`, and `home_state.dart`
 - Create fetch status file `cw_status.dart` (cw = current weather)
 
 ## 8. Create locator / injection
