@@ -1,4 +1,4 @@
-[Video resume here](https://youtu.be/qkTxEG_Go34?list=PLUvfjeBvMXmX0Z9MoKm5cZMAfGcoJdbXi&t=430)<br />
+[Video resume here](https://youtu.be/uwovUxmHaxQ?list=PLUvfjeBvMXmX0Z9MoKm5cZMAfGcoJdbXi)<br />
 [Playlist here](https://www.youtube.com/playlist?list=PLUvfjeBvMXmX0Z9MoKm5cZMAfGcoJdbXi)
 
 ## Setup project
