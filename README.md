@@ -42,7 +42,7 @@
 
 ## 8. Create locator / injection
 
-- Create `lib\locator.dart`
+- Create and update `lib\locator.dart`
 - Called `await setup();` in `lib\main.dart`
 
 ## 9. Call an event
