@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_advaned_course/core/params/ForecastParams.dart';
 import 'package:flutter_advaned_course/core/widgets/app_background.dart';
 import 'package:flutter_advaned_course/core/widgets/dot_loading_widget.dart';
 import 'package:flutter_advaned_course/features/feature_weather/data/models/forecast_day_model.dart';
+import 'package:flutter_advaned_course/features/feature_weather/data/models/suggest_city_model.dart';
 import 'package:flutter_advaned_course/features/feature_weather/domain/entities/current_city_entity.dart';
 import 'package:flutter_advaned_course/features/feature_weather/domain/entities/forecast_day_entity.dart';
+import 'package:flutter_advaned_course/features/feature_weather/domain/use_cases/get_suggestion_city_usecase.dart';
 import 'package:flutter_advaned_course/features/feature_weather/presentation/bloc/cw_status.dart';
 import 'package:flutter_advaned_course/features/feature_weather/presentation/bloc/fw_status.dart';
 import 'package:flutter_advaned_course/features/feature_weather/presentation/bloc/home_bloc.dart';
 import 'package:flutter_advaned_course/features/feature_weather/presentation/widgets/days_weather_view.dart';
+import 'package:flutter_advaned_course/locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,6 +23,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  PageController _pageController = PageController();
+  GetSuggestionCityUseCase getSuggestionCityUseCase =
+      GetSuggestionCityUseCase(locator());
+
+  TextEditingController textEditingController = TextEditingController();
   String cityName = "Surabaya";
 
   @override
@@ -33,8 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    PageController _pageController = PageController();
-
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
@@ -42,6 +48,98 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(
+            height: height * 0.02,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TypeAheadField(
+                    builder: (context, controller, focusNode) {
+                      return TextField(
+                        controller: controller,
+                        focusNode: focusNode,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                          hintText: 'Enter a City...',
+                          hintStyle: TextStyle(color: Colors.white),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                        ),
+                      );
+                    },
+                    suggestionsCallback: (String prefix) {
+                      return getSuggestionCityUseCase(prefix);
+                    },
+                    itemBuilder: (context, Data model) {
+                      return ListTile(
+                        leading: const Icon(Icons.location_on),
+                        title: Text(model.name!),
+                        subtitle: Text("${model.region!}, ${model.country!}"),
+                      );
+                    },
+                    onSelected: (Data model) {
+                      textEditingController.text = model.name!;
+                      BlocProvider.of<HomeBloc>(context).add(
+                        LoadCwEvent(
+                          model.name!,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                BlocBuilder<HomeBloc, HomeState>(
+                  buildWhen: (previous, current) {
+                    if (previous.cwStatus == current.cwStatus) {
+                      return false;
+                    }
+                    return true;
+                  },
+                  builder: (context, state) {
+                    if (state.cwStatus is CwLoading) {
+                      return const CircularProgressIndicator();
+                    }
+
+                    if (state.cwStatus is CwError) {
+                      return IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.error,
+                          color: Colors.white,
+                          size: 35,
+                        ),
+                      );
+                    }
+
+                    if (state.cwStatus is CwCompleted) {
+                      final CwCompleted cwComplete =
+                          state.cwStatus as CwCompleted;
+                      BlocProvider.of<BookmarkBloc>(context).add(
+                          GetCityByNameEvent(
+                              cwComplete.currentCityEntity.name!));
+                      return BookMarkIcon(
+                          name: cwComplete.currentCityEntity.name!);
+                    }
+
+                    return Container();
+                  },
+                )
+              ],
+            ),
+          ),
           BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) {
               if (state.cwStatus is CwLoading) {
@@ -54,14 +152,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 final CurrentCityEntity currentCityEntity =
                     cwCompleted.currentCityEntity;
 
-                final ForecastParams forecastParams = ForecastParams(
-                  currentCityEntity.coord!.lat!,
-                  currentCityEntity.coord!.lon!,
-                );
+                // final ForecastParams forecastParams = ForecastParams(
+                //   currentCityEntity.coord!.lat!,
+                //   currentCityEntity.coord!.lon!,
+                // );
 
-                BlocProvider.of<HomeBloc>(context).add(
-                  LoadFwEvent(forecastParams),
-                );
+                // BlocProvider.of<HomeBloc>(context).add(
+                //   LoadFwEvent(forecastParams),
+                // );
 
                 return Expanded(
                   child: ListView(
@@ -249,21 +347,24 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: BlocBuilder<HomeBloc, HomeState>(
                                 builder: (BuildContext context, state) {
                                   if (state.fwStatus is FwLoading) {
+                                    print("==================LOADING");
                                     return const DotLoadingWidget();
                                   }
 
                                   if (state.fwStatus is FwCompleted) {
+                                    print("==================COMPLETED");
+
                                     final FwCompleted fwCompleted =
                                         state.fwStatus as FwCompleted;
                                     final ForecastDayEntity forecastDayEntity =
                                         fwCompleted.forecastDayEntity;
                                     final List<Daily> mainDaily =
-                                        forecastDayEntity.daily!;
+                                        forecastDayEntity.daily ?? [];
 
                                     return ListView.builder(
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: 8,
+                                      itemCount: mainDaily.length,
                                       itemBuilder: (
                                         BuildContext context,
                                         int index,
@@ -275,17 +376,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                     );
                                   }
 
-                                  if (state.fwStatus is FwError) {}
-                                  final FwError fwError =
-                                      state.fwStatus as FwError;
+                                  if (state.fwStatus is FwError) {
+                                    print("==================ERROR");
 
-                                  return Center(
-                                    child: Text(
-                                      fwError.message,
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                    ),
-                                  );
+                                    final FwError fwError =
+                                        state.fwStatus as FwError;
+
+                                    return Center(
+                                      child: Text(
+                                        fwError.message,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  return Container();
                                 },
                               ),
                             ),

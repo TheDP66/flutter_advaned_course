@@ -1,4 +1,4 @@
-[Video resume here](https://youtu.be/uwovUxmHaxQ?list=PLUvfjeBvMXmX0Z9MoKm5cZMAfGcoJdbXi)<br />
+[Video resume here](https://youtu.be/75KJryXxeV0?list=PLUvfjeBvMXmX0Z9MoKm5cZMAfGcoJdbXi&t=419)<br />
 [Playlist here](https://www.youtube.com/playlist?list=PLUvfjeBvMXmX0Z9MoKm5cZMAfGcoJdbXi)
 
 ## Setup project
@@ -42,7 +42,7 @@
 
 ## 8. Create locator / injection
 
-- Create `lib\locator.dart`
+- Create and update `lib\locator.dart`
 - Called `await setup();` in `lib\main.dart`
 
 ## 9. Call an event
