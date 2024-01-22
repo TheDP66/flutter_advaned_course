@@ -46,6 +46,8 @@ dependencies:
   floor: ^1.4.2
   mockito: ^5.4.4
   bloc_test: ^9.1.5
+  floor_generator: ^1.4.2
+  build_runner: ^2.4.8
 
 dev_dependencies:
   flutter_test:
